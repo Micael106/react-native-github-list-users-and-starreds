@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 import api from '../../services/api';
 
@@ -61,6 +61,13 @@ class User extends Component {
     return navigation.getParam('user');
   };
 
+  handleNavigate = (pageName, data) => {
+    console.tron.log('handleNavigate', data);
+    const { navigation } = this.props;
+
+    navigation.navigate(pageName, data);
+  };
+
   render() {
     const { stars, loading, refreshing } = this.state;
 
@@ -88,13 +95,19 @@ class User extends Component {
             data={stars}
             keyExtractor={(star) => String(star.id)}
             renderItem={({ item }) => (
-              <Starred>
-                <Avatar size={50} source={item.owner.avatar_url} />
-                <Info>
-                  <Title>{item.full_name}</Title>
-                  <Description>{item.description}</Description>
-                </Info>
-              </Starred>
+              <TouchableOpacity
+                onPress={() =>
+                  this.handleNavigate('Repository', { repository: item })
+                }
+              >
+                <Starred>
+                  <Avatar size={50} source={item.owner.avatar_url} />
+                  <Info>
+                    <Title>{item.full_name}</Title>
+                    <Description>{item.description}</Description>
+                  </Info>
+                </Starred>
+              </TouchableOpacity>
             )}
           />
         )}
@@ -110,6 +123,7 @@ User.navigationOptions = ({ navigation }) => ({
 User.propTypes = {
   navigation: PropTypes.shape({
     getParam: PropTypes.func,
+    navigate: PropTypes.func,
   }).isRequired,
 };
 
