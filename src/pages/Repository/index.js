@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { WebView } from 'react-native-webview';
 
 const Repository = ({ navigation }) => {
@@ -6,5 +7,15 @@ const Repository = ({ navigation }) => {
 
   return <WebView source={{ uri: repository.html_url }} style={{ flex: 1 }} />;
 };
+
+Repository.propTypes = {
+  navigation: PropTypes.shape({
+    getParam: PropTypes.func,
+  }).isRequired,
+};
+
+Repository.navigationOptions = ({ navigation }) => ({
+  title: navigation.getParam('repository').name,
+});
 
 export default Repository;
