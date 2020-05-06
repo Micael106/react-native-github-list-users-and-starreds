@@ -62,7 +62,6 @@ class User extends Component {
   };
 
   handleNavigate = (pageName, data) => {
-    console.tron.log('handleNavigate', data);
     const { navigation } = this.props;
 
     navigation.navigate(pageName, data);
@@ -101,7 +100,7 @@ class User extends Component {
                 }
               >
                 <Starred>
-                  <Avatar size={50} source={item.owner.avatar_url} />
+                  <Avatar size={50} source={{ uri: item.owner.avatar_url }} />
                   <Info>
                     <Title>{item.full_name}</Title>
                     <Description>{item.description}</Description>
